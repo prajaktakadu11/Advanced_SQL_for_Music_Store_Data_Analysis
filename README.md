@@ -44,31 +44,31 @@ ORDER BY amount_spent DESC;
 Determines the most popular music genre in each country <br>
 
 WITH popular_genre AS ( <br>
-    SELECT COUNT(invoice_line.quantity) AS purchases, customer.country, genre.name AS genre_name, genre.genre_id, 
-    ROW_NUMBER() OVER (PARTITION BY customer.country ORDER BY COUNT(invoice_line.quantity) DESC) AS RowNo
-    FROM invoice_line
-    JOIN invoice ON invoice.invoice_id = invoice_line.invoice_id
-    JOIN customer ON customer.customer_id = invoice.customer_id
-    JOIN track ON track.track_id = invoice_line.track_id
-    JOIN genre ON genre.genre_id = track.genre_id
-    GROUP BY customer.country, genre.name, genre.genre_id
-    ORDER BY customer.country ASC, purchases DESC
-)
+    SELECT COUNT(invoice_line.quantity) AS purchases, customer.country, genre.name AS genre_name, genre.genre_id, <br>
+    ROW_NUMBER() OVER (PARTITION BY customer.country ORDER BY COUNT(invoice_line.quantity) DESC) AS RowNo <br>
+    FROM invoice_line <br>
+    JOIN invoice ON invoice.invoice_id = invoice_line.invoice_id <br>
+    JOIN customer ON customer.customer_id = invoice.customer_id <br>
+    JOIN track ON track.track_id = invoice_line.track_id <br>
+    JOIN genre ON genre.genre_id = track.genre_id <br>
+    GROUP BY customer.country, genre.name, genre.genre_id <br>
+    ORDER BY customer.country ASC, purchases DESC <br>
+) <br>
 SELECT * FROM popular_genre WHERE RowNo = 1;
 
 #### Insight: Highlights genre preferences by country, aiding regional marketing strategies.
 
 #### 3. Top-Spending Customers by Country
-Identifies the top-spending customer in each country.
+Identifies the top-spending customer in each country. <br>
 
-WITH Customer_with_country AS (
-    SELECT customer.customer_id AS cust_id, customer.first_name AS first_name, customer.last_name AS last_name,
-           invoice.billing_country AS billing_country, SUM(invoice.total) AS total_spending,
-           ROW_NUMBER() OVER (PARTITION BY billing_country ORDER BY SUM(total) DESC) AS RowNo
-    FROM invoice
-    JOIN customer ON customer.customer_id = invoice.customer_id
-    GROUP BY customer.customer_id, customer.first_name, customer.last_name, invoice.billing_country
-)
+WITH Customer_with_country AS ( <br>
+    SELECT customer.customer_id AS cust_id, customer.first_name AS first_name, customer.last_name AS last_name, <br>
+           invoice.billing_country AS billing_country, SUM(invoice.total) AS total_spending, <br>
+           ROW_NUMBER() OVER (PARTITION BY billing_country ORDER BY SUM(total) DESC) AS RowNo <br>
+    FROM invoice <br>
+    JOIN customer ON customer.customer_id = invoice.customer_id <br>
+    GROUP BY customer.customer_id, customer.first_name, customer.last_name, invoice.billing_country <br>
+) <br>
 SELECT * FROM Customer_with_country WHERE RowNo = 1;
 
 #### Insight: Identifies key customers in each region, useful for personalized engagement.
