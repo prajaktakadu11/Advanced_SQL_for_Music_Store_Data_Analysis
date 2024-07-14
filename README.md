@@ -10,40 +10,40 @@ Sales Performance: Analyze sales performance over time and identify peak periods
 Product Relationships: Discover which products are often purchased together.
 
 ### Tools and Technologies
-Database: MySQL
-Query Language: SQL
+Database: MySQL <br>
+Query Language: SQL <br>
 Visualization: dbdiagram.io (for schema visualization)
 
 ### Key SQL Queries and Insights
 #### 1. Best-Selling Artist
-Identifies the artist with the highest sales.
+Identifies the artist with the highest sales. <br>
 
-WITH best_selling_artist AS (
-    SELECT artist.artist_id, artist.name, SUM(invoice_line.unit_price * invoice_line.quantity) AS total_sales
-    FROM invoice_line
-    JOIN track ON track.track_id = invoice_line.track_id
-    JOIN album2 ON album2.album_id = track.album_id
-    JOIN artist ON artist.artist_id = album2.artist_id
-    GROUP BY artist.artist_id, artist.name
-    ORDER BY total_sales DESC
-    LIMIT 1
-)
-SELECT c.customer_id, c.first_name, c.last_name, bsa.name AS artist_name, SUM(il.unit_price * il.quantity) AS amount_spent
-FROM invoice i
-JOIN customer c ON c.customer_id = i.customer_id
-JOIN invoice_line il ON il.invoice_id = i.invoice_id
-JOIN track t ON t.track_id = il.track_id
-JOIN album2 a ON a.album_id = t.album_id
-JOIN best_selling_artist bsa ON bsa.artist_id = a.artist_id
-GROUP BY c.customer_id, c.first_name, c.last_name, bsa.name
+WITH best_selling_artist AS ( <br>
+    SELECT artist.artist_id, artist.name, SUM(invoice_line.unit_price * invoice_line.quantity) AS total_sales <br>
+    FROM invoice_line <br>
+    JOIN track ON track.track_id = invoice_line.track_id <br>
+    JOIN album2 ON album2.album_id = track.album_id  <br>
+    JOIN artist ON artist.artist_id = album2.artist_id <br>
+    GROUP BY artist.artist_id, artist.name <br>
+    ORDER BY total_sales DESC <br>
+    LIMIT 1 <br>
+) <br>
+SELECT c.customer_id, c.first_name, c.last_name, bsa.name AS artist_name, SUM(il.unit_price * il.quantity) AS amount_spent <br>
+FROM invoice i <br>
+JOIN customer c ON c.customer_id = i.customer_id <br>
+JOIN invoice_line il ON il.invoice_id = i.invoice_id <br>
+JOIN track t ON t.track_id = il.track_id <br>
+JOIN album2 a ON a.album_id = t.album_id <br>
+JOIN best_selling_artist bsa ON bsa.artist_id = a.artist_id <br>
+GROUP BY c.customer_id, c.first_name, c.last_name, bsa.name <br>
 ORDER BY amount_spent DESC;
 
 #### Insight: Identifies top customers for the best-selling artist, which helps target marketing efforts.
 
 #### 2. Popular Genres by Country
-Determines the most popular music genre in each country
+Determines the most popular music genre in each country <br>
 
-WITH popular_genre AS (
+WITH popular_genre AS ( <br>
     SELECT COUNT(invoice_line.quantity) AS purchases, customer.country, genre.name AS genre_name, genre.genre_id, 
     ROW_NUMBER() OVER (PARTITION BY customer.country ORDER BY COUNT(invoice_line.quantity) DESC) AS RowNo
     FROM invoice_line
