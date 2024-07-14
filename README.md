@@ -4,9 +4,9 @@
 The Music Store Data Analysis Project aims to analyze sales data from a hypothetical music store to uncover trends, patterns, and insights that can inform business decisions. The project involves using SQL for data extraction, transformation, and analysis.
 
 ### Objectives
-Identify Best-Selling Products: Determine which tracks, albums, and genres generate the most sales.
-Customer Insights: Understand customer behavior, including top-spending customers and geographic distribution.
-Sales Performance: Analyze sales performance over time and identify peak periods.
+Identify Best-Selling Products: Determine which tracks, albums, and genres generate the most sales.<br>
+Customer Insights: Understand customer behavior, including top-spending customers and geographic distribution.<br>
+Sales Performance: Analyze sales performance over time and identify peak periods.<br>
 Product Relationships: Discover which products are often purchased together.
 
 ### Tools and Technologies
