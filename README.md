@@ -1,4 +1,4 @@
-# Music_storedata_analysis
+# Advanced SQL for Music Store Data Analysis
 
 ### Project Overview
 The Music Store Data Analysis Project aims to analyze sales data from a hypothetical music store to uncover trends, patterns, and insights that can inform business decisions. The project involves using SQL for data extraction, transformation, and analysis.
