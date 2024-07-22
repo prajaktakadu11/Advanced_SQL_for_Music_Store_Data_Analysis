@@ -75,6 +75,7 @@ SELECT * FROM Customer_with_country WHERE RowNo = 1;
 
 #Visualization
 Schema diagrams can be visualized using tools like dbdiagram.io. These visualizations help in understanding the database structure and the relationships between different entities.
+![Schema diagram](https://github.com/prajaktakadu11/Advanced_SQL_for_Music_Store_Data_Analysis/blob/main/Music_database_schema.png?raw=true)
 
 #Conclusion
 This project demonstrates the power of SQL in extracting meaningful insights from data. By analyzing sales patterns, customer behavior, and product relationships, businesses can make informed decisions to drive growth and improve customer satisfaction.
