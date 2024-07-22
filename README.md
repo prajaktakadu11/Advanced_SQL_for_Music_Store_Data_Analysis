@@ -1,23 +1,23 @@
 # Advanced SQL for Music Store Data Analysis
 
-### Project Overview
+# Project Overview
 The Music Store Data Analysis Project aims to analyze sales data from a hypothetical music store to uncover trends, patterns, and insights that can inform business decisions. The project involves using SQL for data extraction, transformation, and analysis.
 
-### Objectives
-Identify Best-Selling Products: Determine which tracks, albums, and genres generate the most sales.<br>
-Customer Insights: Understand customer behavior, including top-spending customers and geographic distribution.<br>
-Sales Performance: Analyze sales performance over time and identify peak periods.<br>
-Product Relationships: Discover which products are often purchased together.
+# Objectives
+- Identify Best-Selling Products: Determine which tracks, albums, and genres generate the most sales.<br>
+- Customer Insights: Understand customer behavior, including top-spending customers and geographic distribution.<br>
+- Sales Performance: Analyze sales performance over time and identify peak periods.<br>
+- Product Relationships: Discover which products are often purchased together.
 
-### Tools and Technologies
-Database: MySQL <br>
-Query Language: SQL <br>
-Visualization: dbdiagram.io (for schema visualization)
+# Tools and Technologies
+- Database: MySQL <br>
+- Query Language: SQL <br>
+- Visualization: dbdiagram.io (for schema visualization)
 
-### Key SQL Queries and Insights
-#### 1. Best-Selling Artist
+# Key SQL Queries and Insights
+1. Best-Selling Artist
 Identifies the artist with the highest sales. <br>
-
+```
 WITH best_selling_artist AS ( <br>
     SELECT artist.artist_id, artist.name, SUM(invoice_line.unit_price * invoice_line.quantity) AS total_sales <br>
     FROM invoice_line <br>
@@ -37,12 +37,12 @@ JOIN album2 a ON a.album_id = t.album_id <br>
 JOIN best_selling_artist bsa ON bsa.artist_id = a.artist_id <br>
 GROUP BY c.customer_id, c.first_name, c.last_name, bsa.name <br>
 ORDER BY amount_spent DESC;
-
+```
 #### Insight: Identifies top customers for the best-selling artist, which helps target marketing efforts.
 
-#### 2. Popular Genres by Country
+2. Popular Genres by Country
 Determines the most popular music genre in each country <br>
-
+```
 WITH popular_genre AS ( <br>
     SELECT COUNT(invoice_line.quantity) AS purchases, customer.country, genre.name AS genre_name, genre.genre_id, <br>
     ROW_NUMBER() OVER (PARTITION BY customer.country ORDER BY COUNT(invoice_line.quantity) DESC) AS RowNo <br>
@@ -55,12 +55,12 @@ WITH popular_genre AS ( <br>
     ORDER BY customer.country ASC, purchases DESC <br>
 ) <br>
 SELECT * FROM popular_genre WHERE RowNo = 1;
-
+```
 #### Insight: Highlights genre preferences by country, aiding regional marketing strategies.
 
-#### 3. Top-Spending Customers by Country
+3. Top-Spending Customers by Country
 Identifies the top-spending customer in each country. <br>
-
+```
 WITH Customer_with_country AS ( <br>
     SELECT customer.customer_id AS cust_id, customer.first_name AS first_name, customer.last_name AS last_name, <br>
            invoice.billing_country AS billing_country, SUM(invoice.total) AS total_spending, <br>
@@ -70,7 +70,7 @@ WITH Customer_with_country AS ( <br>
     GROUP BY customer.customer_id, customer.first_name, customer.last_name, invoice.billing_country <br>
 ) <br>
 SELECT * FROM Customer_with_country WHERE RowNo = 1;
-
+```
 #### Insight: Identifies key customers in each region, useful for personalized engagement.
 
 ### Visualization
